@@ -23,11 +23,29 @@ public final class PixelImage extends BufferedImage {
     if (buf == null) {
       throw new IOException("File did not contain a valid image: " + the_file);
     }
+    
+    int width = buf.getWidth();
+    int height = buf.getHeight();
+    
+    if (width > 1200) {
+        width = 1200;
+        height = height*(1200/width);
+    }
+    
+    if (height > 600) {
+        height = 600;
+        width = width*(600/height);
+    }
 
     final PixelImage image =
-        new PixelImage(buf.getWidth()/2, buf.getHeight()/2, BufferedImage.SCALE_DEFAULT);
+        new PixelImage(width, height, BufferedImage.TYPE_INT_RGB);
+    
+    /*int scale = 2;
+    int w = width/scale;
+    int h = height/scale;*/
+    
     final Graphics g = image.getGraphics();
-    g.drawImage(buf, 0, 0, null);
+    g.drawImage(buf, 0, 0, (int) width, (int) height, null);
     return image;
   }
 

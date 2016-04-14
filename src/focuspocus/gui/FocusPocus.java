@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
+//import javax.swing.BorderFactory;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+//import javax.swing.JScrollPane;
 
 import focuspocus.filters.AbstractFilter;
 import focuspocus.filters.EdgeDetectFilter;
@@ -34,7 +34,7 @@ import focuspocus.filters.GrayscaleFilter;
 import focuspocus.filters.SharpenFilter;
 import focuspocus.filters.SoftenFilter;
 import focuspocus.image.PixelImage;
-import javax.swing.SwingUtilities;
+//import javax.swing.SwingUtilities;
 
 public class FocusPocus extends JFrame {
   
@@ -193,7 +193,8 @@ public class FocusPocus extends JFrame {
             final PixelImage temp = PixelImage.load(my_file_chooser.getSelectedFile());
             my_edits.add(temp); my_next = new JLabel();
             my_next.setIcon(new ImageIcon(my_image)); setCenterPanel();
-            setVisibleButtons(true); my_buttonlist.get(UNDO_VISIBLE).setEnabled(false);
+            setVisibleButtons(true); 
+            my_buttonlist.get(UNDO_VISIBLE).setEnabled(false);
           } catch (final IOException e) {
             JOptionPane.showMessageDialog(null, "File did not contain a valid image: " 
                 + my_file_chooser.getSelectedFile(), "Invalid", JOptionPane.ERROR_MESSAGE);
