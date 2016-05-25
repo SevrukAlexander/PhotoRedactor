@@ -6,7 +6,7 @@ public class SoftenFilter extends AbstractWeightedFilter
 
   public SoftenFilter()
   {
-    super("Мягкость", WEIGHTS);
+    super("Размытие", WEIGHTS);
   }
 
 }

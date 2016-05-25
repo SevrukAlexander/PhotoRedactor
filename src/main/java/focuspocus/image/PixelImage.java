@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 public final class PixelImage extends BufferedImage {
 
-  private static final String ARRAY_ERROR = "Array size is invalid.";
+  private static final String ARRAY_ERROR = "Недопустимый размер массива.";
 
   private PixelImage(final int the_width, final int the_height, final int the_type) {
     super(the_width, the_height, the_type);
@@ -21,7 +21,7 @@ public final class PixelImage extends BufferedImage {
     final BufferedImage buf = ImageIO.read(the_file);
 
     if (buf == null) {
-      throw new IOException("File did not contain a valid image: " + the_file);
+      throw new IOException("Файл не содержит допустимое изображение: " + the_file);
     }
     
     int width = buf.getWidth();
@@ -39,10 +39,6 @@ public final class PixelImage extends BufferedImage {
 
     final PixelImage image =
         new PixelImage(width, height, BufferedImage.TYPE_INT_RGB);
-    
-    /*int scale = 2;
-    int w = width/scale;
-    int h = height/scale;*/
     
     final Graphics g = image.getGraphics();
     g.drawImage(buf, 0, 0, (int) width, (int) height, null);

@@ -7,7 +7,7 @@ public class FlipVerticalFilter extends AbstractFilter
 {
   public FlipVerticalFilter()
   {
-    super("Перевернуть по вертикали");
+    super("Отразить по вертикали");
   }
 
   public void filter(final PixelImage the_image)

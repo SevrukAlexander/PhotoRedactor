@@ -1,11 +1,5 @@
 package comoany.com.MyPhotoRedactor;
 
-//import javax.swing.UIManager;
-//import javax.swing.UIManager.LookAndFeelInfo;
-
-//import javax.swing.UIManager;
-//import javax.swing.UIManager.LookAndFeelInfo;
-
 import focuspocus.gui.FocusPocus;
 
 public final class FocusPocusMain {

@@ -169,7 +169,8 @@ public class FocusPocus extends JFrame {
         final int result = my_file_chooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
           try {
-            my_position = 0; my_edits.clear();
+            my_position = 0; 
+            my_edits.clear();
             my_buttonlist.get(UNDO_VISIBLE).setEnabled(false);
             my_image = PixelImage.load(my_file_chooser.getSelectedFile());
             final PixelImage temp = PixelImage.load(my_file_chooser.getSelectedFile());
