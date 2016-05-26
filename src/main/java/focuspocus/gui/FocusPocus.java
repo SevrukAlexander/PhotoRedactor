@@ -45,7 +45,7 @@ public class FocusPocus extends JFrame {
   private static final JPanel SOUTH_PANEL = new JPanel(new FlowLayout());
   private final List<JButton> my_buttonlist = new ArrayList<JButton>();
   private final List<AbstractFilter> my_filters = new ArrayList<AbstractFilter>();
-  private final List<PixelImage> my_edits = new ArrayList<PixelImage>();
+  private ArrayList<PixelImage> my_edits = new ArrayList<PixelImage>(50);
   private JButton my_holder;
   private final JFileChooser my_file_chooser = 
       new JFileChooser(System.getProperty("/Users"));
@@ -114,22 +114,43 @@ public class FocusPocus extends JFrame {
     final JButton button = new JButton(the_filter.getDescription());
     button.addActionListener(new ActionListener() { 
       public void actionPerformed(final ActionEvent the_event) {
-        try {
           my_buttonlist.get(UNDO_VISIBLE).setEnabled(true);
           the_filter.filter(my_image);
-          my_image.save(my_edited);
-          final PixelImage temp = PixelImage.load(my_edited);
-          my_edits.add(temp);
+          my_edits.add(my_image);
           my_position++;
           my_next.setIcon(new ImageIcon(my_image));
           setCenterPanel();
-        } catch (final IOException e) {
-          JOptionPane.showMessageDialog(null, "Invalid process.", 
-                                        "Error", JOptionPane.ERROR_MESSAGE);
-        }
       }
     });
     return button;
+  }
+  
+  private JButton createUndoButton() {
+    final JButton undo = new JButton("Отменить");
+    undo.setForeground(Color.WHITE);
+    undo.setBorderPainted(false);
+    undo.addActionListener(new ActionListener() { 
+      public void actionPerformed(final ActionEvent the_event) {
+          try {
+          if (my_position > 0) {
+            final PixelImage temp = my_edits.get(my_position - 1);
+            temp.save(my_edited);
+            my_next.setIcon(new ImageIcon(temp));
+            my_image = PixelImage.load(my_edited);
+            setCenterPanel();
+            my_edits.remove(my_position);
+            my_position--;
+            if (my_position == 0) {
+              my_buttonlist.get(UNDO_VISIBLE).setEnabled(false);
+            }
+          }
+        } catch (final IOException e) {
+          e.printStackTrace();
+        }
+      }
+    });
+    my_edits.trimToSize();
+    return undo;
   }
   
   private JButton createSaveButton() {
@@ -204,33 +225,6 @@ public class FocusPocus extends JFrame {
       }
     });
     return close;
-  }
-  
-  private JButton createUndoButton() {
-    final JButton undo = new JButton("Отменить");
-    undo.setForeground(Color.WHITE);
-    undo.setBorderPainted(false);
-    undo.addActionListener(new ActionListener() { 
-      public void actionPerformed(final ActionEvent the_event) {
-        try {
-          if (my_position > 0) {
-            final PixelImage temp = my_edits.get(my_position - 1);
-            temp.save(my_edited);
-            my_next.setIcon(new ImageIcon(temp));
-            my_image = PixelImage.load(my_edited);
-            setCenterPanel();
-            my_edits.remove(my_position);
-            my_position--;
-            if (my_position == 0) {
-              my_buttonlist.get(UNDO_VISIBLE).setEnabled(false);
-            }
-          }
-        } catch (final IOException e) {
-          e.printStackTrace();
-        }
-      }
-    });
-    return undo;
   }
   
   private void setVisibleButtons(final boolean the_value) {
