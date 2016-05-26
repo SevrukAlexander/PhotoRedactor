@@ -117,12 +117,14 @@ public class FocusPocus extends JFrame {
           my_buttonlist.get(UNDO_VISIBLE).setEnabled(true);
           the_filter.filter(my_image);
           my_edits.add(my_image);
+          while (my_edits.size() > 50) {
+              my_edits.remove(0);
+          }
           my_position++;
           my_next.setIcon(new ImageIcon(my_image));
           setCenterPanel();
       }
     });
-    my_edits.trimToSize();
     return button;
   }
   
@@ -150,7 +152,6 @@ public class FocusPocus extends JFrame {
         }
       }
     });
-    my_edits.trimToSize();
     return undo;
   }
   
