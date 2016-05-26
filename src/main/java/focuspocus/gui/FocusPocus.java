@@ -50,6 +50,7 @@ public class FocusPocus extends JFrame {
   private final JFileChooser my_file_chooser = 
       new JFileChooser(System.getProperty("/Users"));
   private final File my_edited = new File("name");
+  private final File my_edited_second = new File("names");
   private PixelImage my_image;
   private JLabel my_next;
   private int my_position;
@@ -114,16 +115,24 @@ public class FocusPocus extends JFrame {
     final JButton button = new JButton(the_filter.getDescription());
     button.addActionListener(new ActionListener() { 
       public void actionPerformed(final ActionEvent the_event) {
-          my_buttonlist.get(UNDO_VISIBLE).setEnabled(true);
+          try {
+          my_buttonlist.get(UNDO_VISIBLE).setEnabled(true);         
           the_filter.filter(my_image);
-          my_edits.add(my_image);
+          my_image.save(my_edited);
+          final PixelImage temp = PixelImage.load(my_edited);
+          temp.save(my_edited_second);
+          my_edits.add(temp);
           while (my_edits.size() > 50) {
               my_edits.remove(0);
               my_position--;
           }
-          my_position++;
+          my_position++;    
           my_next.setIcon(new ImageIcon(my_image));
           setCenterPanel();
+        } catch (final IOException e) {
+          JOptionPane.showMessageDialog(null, "Invalid process.", 
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
       }
     });
     return button;
@@ -138,9 +147,9 @@ public class FocusPocus extends JFrame {
           try {
           if (my_position > 0) {
             final PixelImage temp = my_edits.get(my_position - 1);
-            temp.save(my_edited);
+            temp.save(my_edited_second);
             my_next.setIcon(new ImageIcon(temp));
-            my_image = PixelImage.load(my_edited);
+            my_image = PixelImage.load(my_edited_second);
             setCenterPanel();
             my_edits.remove(my_position);
             my_position--;
