@@ -27,16 +27,16 @@ public final class PixelImage extends BufferedImage {
     int width = buf.getWidth();
     int height = buf.getHeight();
     
-    if (width > 1200) {
-        width = 1200;
-        height = height*(1200/width);
+    if (width > height) {
+        int width1 = 1200;
+        height = width1 * height / width;
+        width = width1;
+    } else if (height <= width) {
+        int height1 = 600;
+        width = height1 * width / height;
+        height = height1;
     }
     
-    if (height > 600) {
-        height = 600;
-        width = width*(600/height);
-    }
-
     final PixelImage image =
         new PixelImage(width, height, BufferedImage.TYPE_INT_RGB);
     

@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,6 +30,10 @@ import focuspocus.filters.GrayscaleFilter;
 import focuspocus.filters.SharpenFilter;
 import focuspocus.filters.SoftenFilter;
 import focuspocus.image.PixelImage;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FocusPocus extends JFrame {
   
@@ -44,8 +49,7 @@ public class FocusPocus extends JFrame {
   private JButton my_holder;
   private final JFileChooser my_file_chooser = 
       new JFileChooser(System.getProperty("/Users"));
-  private final File my_edited = new File("names");
-  private final File my_edited_second = new File("name");
+  private final File my_edited = new File("name");
   private PixelImage my_image;
   private JLabel my_next;
   private int my_position;
@@ -64,8 +68,8 @@ public class FocusPocus extends JFrame {
   public void start() {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
-    setMaximumSize(new Dimension(1440, 900));
-    setMinimumSize(new Dimension(1440,900));
+    setMaximumSize(new Dimension(1680, 1000));
+    setMinimumSize(new Dimension(1680,1000));
     setLocationByPlatform(true);
     setupComponents();  
     pack();
@@ -73,7 +77,7 @@ public class FocusPocus extends JFrame {
   }
   
   private void setupComponents() {
-    //create the filter buttons.
+    
     for (int i = 0; i < NUM_BUTTONS; i++) {
       final JButton temp = createFilterButton(my_filters.get(i));
       temp.setForeground(Color.WHITE);
@@ -82,22 +86,19 @@ public class FocusPocus extends JFrame {
       NORTH_PANEL.setBackground(Color.DARK_GRAY);
       my_buttonlist.add(temp);
     }
-    //create the open button.
+    
     my_holder = createOpenButton();
     SOUTH_PANEL.add(my_holder);
     SOUTH_PANEL.setBackground(Color.DARK_GRAY);
     
-    //create the save button.
     my_holder = createSaveButton();
     SOUTH_PANEL.add(my_holder);
     my_buttonlist.add(my_holder);
     
-    //create the close button.
     my_holder = createCloseButton();
     SOUTH_PANEL.add(my_holder);
     my_buttonlist.add(my_holder);
     
-    //create the undo button.
     my_holder = createUndoButton();
     SOUTH_PANEL.add(my_holder);
     my_buttonlist.add(my_holder);
@@ -114,11 +115,10 @@ public class FocusPocus extends JFrame {
     button.addActionListener(new ActionListener() { 
       public void actionPerformed(final ActionEvent the_event) {
         try {
-          my_buttonlist.get(UNDO_VISIBLE).setEnabled(true);         
+          my_buttonlist.get(UNDO_VISIBLE).setEnabled(true);
           the_filter.filter(my_image);
           my_image.save(my_edited);
           final PixelImage temp = PixelImage.load(my_edited);
-          temp.save(my_edited_second);
           my_edits.add(temp);
           my_position++;
           my_next.setIcon(new ImageIcon(my_image));
@@ -215,9 +215,9 @@ public class FocusPocus extends JFrame {
         try {
           if (my_position > 0) {
             final PixelImage temp = my_edits.get(my_position - 1);
-            temp.save(my_edited_second);
+            temp.save(my_edited);
             my_next.setIcon(new ImageIcon(temp));
-            my_image = PixelImage.load(my_edited_second);
+            my_image = PixelImage.load(my_edited);
             setCenterPanel();
             my_edits.remove(my_position);
             my_position--;
