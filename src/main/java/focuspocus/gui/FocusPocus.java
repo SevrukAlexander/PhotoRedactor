@@ -45,7 +45,7 @@ public class FocusPocus extends JFrame {
   private static final JPanel SOUTH_PANEL = new JPanel(new FlowLayout());
   private final List<JButton> my_buttonlist = new ArrayList<JButton>();
   private final List<AbstractFilter> my_filters = new ArrayList<AbstractFilter>();
-  private ArrayList<PixelImage> my_edits = new ArrayList<PixelImage>(50);
+  private ArrayList<PixelImage> my_edits = new ArrayList<PixelImage>();
   private JButton my_holder;
   private final JFileChooser my_file_chooser = 
       new JFileChooser(System.getProperty("/Users"));
